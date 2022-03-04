@@ -5,9 +5,10 @@ date: "3/3/2022"
 output: pdf_document
 ---
 
-```{r setup, eval=FALSE, error = FALSE}
+```{r echo = FALSE}
 library(MASS)
 library(tidyverse)
+library(readr)
 options(scipen = 999)
 ```
 
@@ -129,12 +130,7 @@ Data %>%
 
 ```
 
-Confirming that the box cox plot looks better. Now I see that confidence interval includes 1. so next step will be to consider transforming x. 
 
-```{r}
-boxcox(result.ystar)
-#boxcox(result.ystar, lambda = seq(-1,5.5,1/10))
-```
 
 New residual plot: 
 
@@ -156,11 +152,18 @@ Data %>%
   labs(x="fitted y*", y = "residuals", title="residual plot")
 ```
 
-variance looks better but mean of errors still not equal to zero over x so will attempt to transform the x variable. Given the curved appearance, will try an inverse transformation (1/x)
-
+variance looks better but mean of errors still not equal to zero over x so will attempt to transform the x variable. Given the curved appearance, will try a square root transformation.
+Confirming that the box cox plot looks better. Now I see that confidence interval includes 1. so next step will be to consider transforming x. 
 
 ```{r error = FALSE}
-xstar <- 1/(Data$carat)
+
+boxcox(result.ystar)
+#boxcox(result.ystar, lambda = seq(-1,5.5,1/10))
+
+```
+
+```{r error = FALSE}
+xstar <- sqrt(Data$carat)
 Data<-data.frame(Data,xstar)
 
 Data %>%
@@ -200,6 +203,8 @@ summary(result.ystar.xstar)
 ```
 
 ACF Plot
+
+Assumption met.  
 
 ```{r}
 acf(res3,main="ACF Plot of Residuals with xstar and ystar")
