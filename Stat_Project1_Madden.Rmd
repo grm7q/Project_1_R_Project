@@ -5,9 +5,14 @@ date: "3/3/2022"
 output: pdf_document
 ---
 
+```{r include=FALSE}
+knitr::opts_chunk$set(warning=FALSE, message=FALSE, tidy = TRUE)
+#note 'include = FALSE' completely hides the chunk, 'echo = FALSE' means to not include the code. 'message = FALSE' means you will not see any messages after it runs, 'results = 'hide'' hides the output, and 'warning = FALSE' hides any warnings. 
+```
+
 ```{r include = FALSE}
 
-#note 'include = FALSE' completely hides the chunk, 'echo = FALSE' means to not include the code. 'message = FALSE' means you will not see any messages after it runs, 'results = 'hide'' hides the output, and 'warning = FALSE' hides any warnings. 
+
 library(MASS)
 library(tidyverse)
 library(readr)
@@ -71,24 +76,24 @@ In the above plot, you can see that certain cut/clarity combinations (e.g., Good
 
 Assertion above is that better cuts correlate with higher price. Let's check the scatterplot to see if that bears out in the data: 
 
-
-Increasing quality of diamond cut does not seem to have a linear relationship with price, contrary to the Blue Nile's claim. 
-```{r, echo = FALSE, error = FALSE}
+```{r, tidy = TRUE, echo = FALSE, error = FALSE}
 Data %>%
   ggplot(aes(x=cut, y=price)) +
   geom_point() +
-  geom_smooth(method="lm",se=F) +
+  #geom_smooth(method="lm",se=F) +
   labs(x="Cut", y="Price ($)", title = "Blue Nile Diamonds: Cut and Price") 
 ```
 
+As shown above, increasing quality of diamond cut does not seem to have a linear relationship with price, contrary to the Blue Nile's claim. 
 
 
+##2. Fit an appropriate simple linear regression for price against carat.
 
-2. Fit an appropriate simple linear regression for price against carat.
+
+First checking a scatterplot for Price ~ Carat: 
 
 
-First a scatterplot
-```{r, echo = FALSE, error = FALSE}
+```{r, echo = FALSE, warning=FALSE, error = FALSE}
 Data %>%
   ggplot(aes(x=carat, y=price)) +
   geom_point() +
@@ -96,8 +101,9 @@ Data %>%
   labs(x="Carats", y="Price ($)", title = "Blue Nile Diamonds: Factors Influencing Price") 
 ```
 
-Model Summary
-```{r, echo = FALSE, error = FALSE}
+Model Summary: 
+
+```{r, echo = FALSE, messages = FALSE, error = FALSE}
 #Fitting the model
 result<-lm(price~ carat, data=Data)
 summary(result)
@@ -165,12 +171,16 @@ Data %>%
 
 Confirming that the box cox plot looks better. Now I see that confidence interval includes 1. Next step is to consider whether or not to transform x. 
 
+Boxcox plot: 
+
 ```{r, echo = FALSE, error = FALSE}
 
 boxcox(result.ystar)
 #boxcox(result.ystar, lambda = seq(-1,5.5,1/10))
 
 ```
+
+Plotting the scatterplot using the transformed x (sqrt(x)) and y (y^0.31) variables. 
 
 ```{r, echo = FALSE, error = FALSE}
 xstar <- sqrt(Data$carat)
@@ -184,7 +194,7 @@ Data %>%
 ```
 
 
-Fitting new model and creating yet another residual plot. 
+Fitting new model and creating another residual plot. 
 
 ***Not a perfect fit but overall improved and adequate for prediction. ***
 
@@ -207,14 +217,14 @@ Data %>%
   labs(x="fitted y", y = "residuals", title="residual plot")
 ```
 
-Summarizing the model below. 
+Summarizing the final model below:
 
 ```{r, echo = FALSE, error = FALSE}
 summary(result.ystar.xstar)
 
 ```
 
-ACF Plot
+ACF Plot:
 
 ***Errors do not appear correlated to each other.  ***
 
@@ -222,8 +232,10 @@ ACF Plot
 acf(res3,main="ACF Plot of Residuals with xstar and ystar")
 
 ```
-QQ Plot
+
+QQ Plot:
 ***Normality assumption is not met but this may be the least important.*** 
+
 ```{r, echo = FALSE, error = FALSE}
 qqnorm(res3)
 qqline(res3,col="red")
