@@ -324,4 +324,21 @@ As you can see in the model summary printed above, the t test for slope P-value 
 
 \section{Executive Summary:}
 
+Purpose: This project uses various data visualizations to explore how price is related to the other variables 
+such as (carat, clarity, color, cut), as well as how the other variables may relate to each other.
 
+Problem: When considering the rarity of a diamond, it is important to consider the 4Cs of Diamonds - cut,
+color, clarity, and carat weight. We wanted to determine which out of these characterisitcs are the most
+influential on the actual price of the diamond and how they all relate to one another. 
+
+Problem Analysis: With the data provided from Blue Nile, we should be able to check if the various claims 
+found on Blue Nile's website are accurate. 
+
+Results of Analysis: The results of our project conclude that the website has several incorrect claims based
+on several of the models and data vizualizations that were fitted. We found that after modeling the data
+in various ways, the most important factor is carat weight rather than the diamonds cut. 
+
+Recommendations: We would recommend that buyers consdier the size, carat weight, of the diamond as the most 
+influential factor that contributes to the price when looking to purchase a diamond. With this knowledge, buyers
+will have a better understanding on what characteristics have a more determinent role and will be better suited
+to find the best diamond for them.
