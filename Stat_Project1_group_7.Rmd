@@ -104,6 +104,7 @@ Data %>%
 ```
 
 
+***The color of a diamond is more visible in larger diamonds. As shown above, when choosing the size of the diamond, color is a relative factor as color groups 'D' and 'E' which are considered to be colorless and provide the closest look to 'icy' are larger in size.***
 
        
 ```{r}
