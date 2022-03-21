@@ -12,7 +12,6 @@ knitr::opts_chunk$set(warning=FALSE, message=FALSE, tidy = TRUE)
 
 ```{r include = FALSE}
 
-
 library(MASS)
 library(tidyverse)
 library(readr)
@@ -55,6 +54,7 @@ Plotting a pair-wise scatterplots for the data below:
 pairs(Data, lower.panel = NULL)
 ```
 
+
 ***Note that the x-axis above corresponds to increasing desireability of the factored categorical variables: clarity, color, and cut. In the above scatterplot matrix how price appears to have the clearest linear relationship with carats.  ***
 
 Plotting the response variable of interest (price) against carat, faceted by cut and clarity, with color indicating different diamond color characteristics: 
@@ -76,6 +76,49 @@ Data %>%
 
 
 ***In the above plot, you can see that certain cut/clarity combinations (e.g., Good cut and VVS2 clarity) have different slopes in terms of their price ~ carat relationships. For example, ideal cut with FL (Flawless) clarity appears to have a higher price per additional carat size than the Ideal Cut with SI2 (Slightly Included). In addition, more desireable colors (i.e.D-F) appear to cluster at the lower price ranges.***
+
+
+* Color: https://www.bluenile.com/education/diamonds/color
+  +"Did you know that it's very rare to find a diamond that doesn't have any color at all? In fact, diamonds are found in almost any naturally occurring color, including gray, white, yellow, green, brown, and pink. The absence of color in a diamond is the rarest and therefore, the most expensive. While the majority of our customers choose a D or E color grade, many go with a beautiful near colorless grade to make the most of their budget and allocate more on the best cut that they can afford (which gives them more sparkle).
+
+Deciding whether or not you want to spend more on diamond color grade is partly related to the size and shape of the diamond that you are considering, and your setting preference. You can save by knowing how color affects these attributes."
+
+Assertion above is that when choosing a specific color grade of a diamond, it 
+is partly related to the size of the diamond so lets compare the various
+sizes of diamonds across all of the color ranges and see what assumptions we 
+can make: 
+white_check_mark
+eyes
+raised_hands
+
+
+```{r}
+Data %>%
+  ggplot(aes(x=carat, y = price, color = color)) +
+  geom_point(alpha = 0.3) +
+  labs(x="Carats", y="Price", 
+       title = "Blue Nile Diamond Characteristics",
+       subtitle = "Comparison between the various colors of diamonds
+       against the size of diamond in carats")+
+  facet_wrap(~color)
+```
+
+
+
+       
+```{r}
+Data %>%
+  ggplot(aes(x=color, y = carat, color = color)) +
+  geom_point(alpha = 0.3) +
+  labs(x="Diamond Colors", y="Carats", 
+       title = "Blue Nile Diamond Characteristics",
+       subtitle = "Comparison between the various colors of diamonds
+       against the size of diamond in carats")
+```
+
+
+***The color of a diamond is more visible in larger diamonds. As shown above, when choosing the size of the diamond, color is a relative factor as color groups 'D' and 'E' which are considered to be colorless and provide the closest look to 'icy' are larger in size.***
+
 
 ##Addressing various claims on the diamond education page on Blue Nile: 
 
